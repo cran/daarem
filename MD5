@@ -1,0 +1,14 @@
+4743b5ec48b8b70ac0324d30a96c1449 *DESCRIPTION
+0e85b493403d088702e8fb44f4e0f56b *NAMESPACE
+39f9de00334eecc71467ca1f847c9f75 *R/DampingFind.R
+d2913c57d61d74e8f377ace98855e77e *R/InvMillsRatio.R
+a191f7d1cd286537042de3b69c30a8c9 *R/ProbitLogLik.R
+8423b53e0bdc5a07098cfa20d92f6955 *R/ProbitSimulate.R
+3239d2b1d4feb664c7d390187cdaf2d8 *R/ProbitUpdate.R
+11201e8fcdc8c27b0be3aa7dc98cbdc0 *R/daarem.R
+05623d0827aaaa5b490e86c134cc5ca2 *R/fpiter.R
+42029132f012c3baf2d3f54241551777 *man/ProbitLogLik.Rd
+38299974de2393cd4b6651a4030c8c9f *man/ProbitSimulate.Rd
+4ebf3d999873486977c7608b8d6c2e80 *man/ProbitUpdate.Rd
+8b1b9171186806fa3b9058e341c991b5 *man/daarem.Rd
+09b6c4595c0df571ff59a5be8e2b9144 *man/fpiter.Rd
