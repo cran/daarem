@@ -9,13 +9,13 @@ daarem <- function(par, fixptfn, objfn, ..., control=list()) {
 
   maxiter <- control$maxiter
   tol <- control$tol
-  mon.tol <- control$mon.tol  ## monotone tolerance
+  mon.tol <- control$mon.tol  ## monotonicity tolerance
   cycl.mon.tol <- control$cycl.mon.tol
   a1 <- control$alpha
   kappa <- control$kappa
 
   num.params <- length(par)
-  nlag <- min(ceiling(control$order/2), num.params)  ### revise?
+  nlag <- min(control$order, ceiling(num.params/2))
 
   Fdiff <- Xdiff <- matrix(0.0, nrow=num.params, ncol=nlag)
   obj_funvals <- rep(NA, maxiter + 2)
@@ -24,7 +24,6 @@ daarem <- function(par, fixptfn, objfn, ..., control=list()) {
   xnew <- fixptfn(xold, ...)
   obj_funvals[1] <- objfn(xold, ...)
   obj_funvals[2] <- objfn(xnew, ...)
-  #resids[1] <- mean(abs(xnew - xold))
   likchg <- obj_funvals[2] - obj_funvals[1]
   obj.evals <- 2
 
@@ -36,7 +35,7 @@ daarem <- function(par, fixptfn, objfn, ..., control=list()) {
   lambda.ridge <- 100000
   r.penalty <- 0
   conv <- TRUE
-  num.em <- 0  ## number of EM fallbacks
+  #num.em <- 0  ## number of EM fallbacks
   ell.star <- obj_funvals[2]
   while(k < maxiter) {
     count <- count + 1
@@ -51,7 +50,7 @@ daarem <- function(par, fixptfn, objfn, ..., control=list()) {
 
     np <- count
     Ftmp <- matrix(Fdiff[,1:np], nrow=length(fnew), ncol=np)
-    Xtmp <- matrix(Xdiff[,1:np], nrow=length(fnew), ncol=np)
+    Xtmp <- matrix(Xdiff[,1:np], nrow=length(fnew), ncol=np)  ## is this matrix function needed?
 
     tmp <- svd(Ftmp)
     dvec <- tmp$d
@@ -128,6 +127,7 @@ daarem <- function(par, fixptfn, objfn, ..., control=list()) {
       }
       ell.star <- obj_funvals[k+2]
     }
+    
     shrink.target <-  1/(1 + a1^(kappa - shrink.count))
     k <- k+1
   }

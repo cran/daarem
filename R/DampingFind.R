@@ -14,13 +14,24 @@ DampingFind <- function(uy.sq, dvec, aa, kappa, sk, Ftf, lambda.start=NULL,
   if(is.null(r.start) | is.na(r.start)) {
     r.start <- 0
   }
+  if(sum(dvec==0.0) > 0) {
+      ind <- dvec > 0
+      dvec <- dvec[ind]
+      uy.sq <- uy.sq[ind]
+      ## what about if dvec has length 1?
+  }
   pow <- kappa - sk
   target <- exp(-0.5*log1p(aa^pow))  ### This is sqrt(delta_k)
+  #d.sq <- pmax(dvec*dvec, 1e-7)  ## in case the least-squares problem is very poorly conditioned
   d.sq <- dvec*dvec
   betahat.ls <- uy.sq/d.sq
   betahat.ls.norm <- sqrt(sum(betahat.ls))
   vk <- target*betahat.ls.norm
 
+  if(vk == 0) {
+      ## the norm of the betas is zero, so the value of lambda shouldn't matter
+      return(list(lambda=lambda.start, rr=r.start))
+  }
   ### Initialize lambda and lower and upper bounds
   lambda <- lambda.start - r.start/vk
   LL <- (betahat.ls.norm*(betahat.ls.norm - vk))/sum(uy.sq/(d.sq*d.sq))
@@ -39,13 +50,14 @@ DampingFind <- function(uy.sq, dvec, aa, kappa, sk, Ftf, lambda.start=NULL,
       lambda <- max(.0001*UU, sqrt(LL*UU))
     }
     ### Evaluate ||s(lambda)|| and \phi(lambda)/phi'(lambda)
+
     d.lambda <- (dvec/(d.sq + lambda))^2
     d.prime <- d.lambda/(d.sq + lambda)
     s.norm <- sqrt(sum(uy.sq*d.lambda))
     phi.val <- s.norm - vk
     phi.der <- (-1)*sum(uy.sq*d.prime)/s.norm
     phi.ratio <- phi.val/phi.der
-
+   
     d.u <- (dvec/(d.sq + LL))^2
     s.up <- sqrt(sum(uy.sq*d.u))
     ### Initial Lower bound is not correct
@@ -54,7 +66,7 @@ DampingFind <- function(uy.sq, dvec, aa, kappa, sk, Ftf, lambda.start=NULL,
     if(s.norm <= u.stop*betahat.ls.norm & s.norm >= l.stop*betahat.ls.norm) {
       break
     }
-
+    
     ### If not converged, update lower and upper bounds
     UU <- ifelse(phi.val >= 0, UU, lambda)
     LL <- max(LL, lambda - phi.ratio)
