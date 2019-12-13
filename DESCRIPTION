@@ -2,8 +2,8 @@ Package: daarem
 Type: Package
 Title: Damped Anderson Acceleration with Epsilon Monotonicity for
         Accelerating EM-Like Monotone Algorithms
-Version: 0.4
-Date: 2019-09-27
+Version: 0.4.1
+Date: 2019-12-13
 Authors@R: c(person("Nicholas", "Henderson", email = "nchender@umich.edu", role = c("cre", "aut")), person("Ravi", "Varadhan", email = "ravi.varadhan@jhu.edu", role = "aut"))
 Maintainer: Nicholas Henderson <nchender@umich.edu>
 Imports: stats, utils
@@ -12,8 +12,8 @@ License: GPL-2
 Encoding: UTF-8
 LazyData: true
 NeedsCompilation: no
-Packaged: 2019-09-27 17:01:15 UTC; nchender
+Packaged: 2019-12-13 05:11:19 UTC; nchender
 Author: Nicholas Henderson [cre, aut],
   Ravi Varadhan [aut]
 Repository: CRAN
-Date/Publication: 2019-09-27 21:10:09 UTC
+Date/Publication: 2019-12-13 06:30:03 UTC
