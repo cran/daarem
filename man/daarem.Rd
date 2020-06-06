@@ -41,7 +41,7 @@ A list with the following components:
 \item{par}{Parameter, \eqn{x*}{x*} that are the fixed-point of \eqn{G}{G}
   such that \eqn{x* = G(x*)}{x* = G(x*)}, if convergence is successful.}
 
-\item{value.objfn}{The value of the objective function $L$ at termination.}
+\item{value.objfn}{The value of the objective function \eqn{L}{L} at termination.}
 
 \item{fpevals}{Number of times the fixed-point function \code{fixptfn} was evaluated.}
 
@@ -61,7 +61,8 @@ Default values of \code{control} are:
     \code{cycl.mon.tol=0.0},
     \code{alpha=1.2},
     \code{kappa=25},
-    \code{resid.tol=0.95}.
+    \code{resid.tol=0.95},
+    \code{convtype="param"}
 
 \describe{
 	\item{\code{maxiter}}{An integer denoting the maximum limit on the number
@@ -70,8 +71,8 @@ Default values of \code{control} are:
 \item{\code{order}}{An integer \eqn{1}{>= 1} denoting the order of the DAAREM acceleration scheme.}
 \describe{
 	\item{\code{tol}}{A small, positive scalar that determines when iterations
-	  should be terminated.  Iteration is terminated when
-	  \eqn{||x_k - G(x_k)|| \leq tol}{|| x[k] - G(x[k]) || <= tol}.
+	  should be terminated.  When \code{convtype} is set to "param", iteration is terminated when
+	  \eqn{||x_k - G(x_k)|| < tol}{|| x[k] - G(x[k]) || < tol}.
 	  Default is \code{1.e-08}.}
 	\item{\code{mon.tol}}{A nonnegative scalar that determines whether the montonicity condition
 	is violated. The monotonicity condition is violated whenver \eqn{L(x[k+1]) < L(x[k]) - mon.tol }{L(x[k+1]) < L(x[k]) - mon.tol }.
@@ -99,12 +100,13 @@ Default values of \code{control} are:
 	\item{\code{resid.tol}}{A nonnegative scalar \eqn{< 1}{< 1} that determines whether a residual change condition is violated.
 	The residual change condition is violated whenever \eqn{||x_k+1 - G(x_k+1)|| > ||x_k - G(x_k)|| (1 + resid.tol^k)}{|| G(x[k+1]) - x[k+1] || > || G(x[k]) - x[k] ||*(1 + resid.tol^k)}. Default value of resid.tol is \code{0.95}.
 	}
+	\item{\code{convtype}}{This can equal either "param" or "objfn". When set to "param", convergence is determined by the criterion: \eqn{||x_k - G(x_k)|| \leq tol}{|| x[k] - G(x[k]) || < tol}. When set to "objfn", convergence is determined by the objective function-based criterion: \eqn{| L(x[k+1]) - L(x[k])| < tol }{| L(x[k+1]) - L(x[k])| < tol }.
 	}
 }
+}
 \references{
-Henderson, N.C. and Varadhan, R. (2018) \emph{Damped Anderson acceleration with restarts and monotonicity
-control for accelerating EM and EM-like algorithms.}
-\url{https://arxiv.org/abs/1803.06673}
+Henderson, N.C. and Varadhan, R. (2019) \emph{Damped Anderson acceleration with restarts and monotonicity
+control for accelerating EM and EM-like algorithms}, \emph{Journal of Computational and Graphical Statistics, Vol. 28(4), 834-846.} \url{https://doi.org/10.1080/10618600.2019.1594835}
 }
 \author{
 Nicholas Henderson and Ravi Varadhan
