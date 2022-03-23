@@ -51,6 +51,10 @@ A list with the following components:
   indicates successful convergence, whereas \code{1} denotes failure to
   converge.}
 \item{objfn.track}{A vector containing the value of the objective function at each iteration.}
+\item{p.intermed}{A matrix where each row corresponds to parameters at each iteration, 
+      along with the corresponding value of the objective function (in the first column). 
+      This object is returned only when the control parameter \code{intermed} is set to \code{TRUE}. It is not returned when 
+      \code{objfn} is not specified.}
 }
 \details{
 Default values of \code{control} are:
@@ -102,11 +106,15 @@ Default values of \code{control} are:
 	}
 	\item{\code{convtype}}{This can equal either "param" or "objfn". When set to "param", convergence is determined by the criterion: \eqn{||x_k - G(x_k)|| \leq tol}{|| x[k] - G(x[k]) || < tol}. When set to "objfn", convergence is determined by the objective function-based criterion: \eqn{| L(x[k+1]) - L(x[k])| < tol }{| L(x[k+1]) - L(x[k])| < tol }.
 	}
+	\item{\code{intermed}}{
+	A logical variable indicating whether or not the intermediate results of iterations should be returned. If set to
+	\code{TRUE}, the function will return a matrix where each row corresponds to parameters at each iteration, along with the corresponding value of the objective function in the first column. This option is inactive when objfn is not specified. Default is \code{FALSE}.
+	}
 }
 }
 \references{
 Henderson, N.C. and Varadhan, R. (2019) \emph{Damped Anderson acceleration with restarts and monotonicity
-control for accelerating EM and EM-like algorithms}, \emph{Journal of Computational and Graphical Statistics, Vol. 28(4), 834-846.} \url{https://doi.org/10.1080/10618600.2019.1594835}
+control for accelerating EM and EM-like algorithms}, \emph{Journal of Computational and Graphical Statistics, Vol. 28(4), 834-846.} \doi{10.1080/10618600.2019.1594835}
 }
 \author{
 Nicholas Henderson and Ravi Varadhan
@@ -145,7 +153,7 @@ c(aa.probit$value, em.probit$value)
 # Accelerating using SQUAREM if the SQUAREM package is loaded
 # library(SQUAREM)
 # max.iter <- 5000
-# sq.probit <- squarem(par=beta.init, fixptfn = ProbitUpdate, objfn = ProbitLogLik,
+# sq.probit <- squarem(par=beta.init, fixptfn=ProbitUpdate, objfn=ProbitLogLik,
 #                     X=XX, y=yy, control=list(maxiter=max.iter))
 
 # print( c(aa.probit$fpevals, em.probit$fpevals, sq.probit$fpevals) )
@@ -153,5 +161,5 @@ c(aa.probit$value, em.probit$value)
 # print( c(aa.probit$objfeval, em.probit$objfeval, sq.probit$objfeval) )
 
 }
-\keyword{ optimization }% use one of  RShowDoc("KEYWORDS")
-\keyword{ EM algorithm}% __ONLY ONE__ keyword per line
+\keyword{ optimization }
+\keyword{ EM algorithm }
